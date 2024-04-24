@@ -1,4 +1,4 @@
-import { Reflect } from '@reflect_metadata';
+import { Reflect } from '@reflect-metadata';
 import type { Constructor } from './types.ts';
 
 export interface InjectionMetadata {
@@ -13,11 +13,7 @@ export function bootstrap<T>(type: Constructor<T>, overrides = new Map<Construct
   return new Injector(overrides).bootstrap(type);
 }
 
-export interface IInjector {
-  bootstrap<T>(type: Constructor<T>): T;
-}
-
-export class Injector implements IInjector {
+export class Injector {
   #resolved = new Map<Constructor, () => unknown>();
   #overrides: Map<Constructor, Constructor>;
 

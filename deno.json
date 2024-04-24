@@ -5,7 +5,7 @@
     ".": "./mod.ts"
   },
   "imports": {
-    "@reflect_metadata": "https://deno.land/x/reflect_metadata@v0.1.12-2/mod.ts"
+    "@reflect-metadata": "https://deno.land/x/reflect_metadata@v0.1.12-2/mod.ts"
   },
   "compilerOptions": {
     "strict": true,
