@@ -1,5 +1,5 @@
-import { setInjectionMetadata } from "./injector.ts";
-import type { Constructor } from "./helper_types.ts";
+import { setInjectionMetadata } from './injector.ts';
+import type { Constructor } from './types.ts';
 
 export interface InjectionOptions {
   isSingleton?: boolean;

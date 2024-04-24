@@ -1,4 +1,4 @@
-import { bootstrap, Bootstrapped, Injectable } from "../mod.ts";
+import { bootstrap, Bootstrapped, Injectable } from '../mod.ts';
 
 @Injectable()
 class Counter {

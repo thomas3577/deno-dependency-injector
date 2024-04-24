@@ -1,7 +1,8 @@
-import { Bootstrapped, Injectable, Injector } from "../mod.ts";
+import { Bootstrapped, Injectable, Injector } from '../mod.ts';
 
 // Equivalent to @Injectable({ isSingleton: true })
 @Injectable()
+// deno-lint-ignore no-unused-vars
 class Counter {
   private count = 0;
 

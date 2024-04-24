@@ -1,7 +1,8 @@
-import { bootstrap, Bootstrapped, Injectable } from "../mod.ts";
+import { bootstrap, Bootstrapped, Injectable } from '../mod.ts';
 
 // Equivalent to @Injectable({ isSingleton: true })
 @Injectable()
+// deno-lint-ignore no-unused-vars
 class Counter {
   private count = 0;
 
@@ -22,5 +23,6 @@ class Main {
 const main = bootstrap(Main);
 main.counter1.increment();
 console.log(main.counter1.getCount(), main.counter2.getCount()); // "1 1"
+
 main.counter2.increment();
 console.log(main.counter1.getCount(), main.counter2.getCount()); // "2 2"
