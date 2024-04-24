@@ -1,4 +1,4 @@
-import { Reflect } from '@reflect-metadata';
+import { Reflect } from '@reflect';
 import type { Constructor } from './types.ts';
 
 export interface InjectionMetadata {
