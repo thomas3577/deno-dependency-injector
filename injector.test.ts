@@ -1,4 +1,4 @@
-import { assert, assertEquals, assertNotStrictEquals, assertStrictEquals, assertThrows } from 'https://deno.land/std@0.71.0/testing/asserts.ts';
+import { assert, assertEquals, assertNotStrictEquals, assertStrictEquals, assertThrows } from '@std/assert';
 import { bootstrap, Bootstrapped, Injectable, Injector } from './mod.ts';
 import type { Constructor } from './types.ts';
 

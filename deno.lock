@@ -13,7 +13,9 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@dx/reflect@0.2.2"
+      "jsr:@dx/reflect@0.2.2",
+      "jsr:@std/assert@0.223",
+      "jsr:@std/testing@0.223"
     ]
   }
 }
