@@ -4,8 +4,20 @@
   "exports": {
     ".": "./mod.ts"
   },
+  "tasks": {
+    "lock": "deno cache --lock=deno.lock --lock-write ./mod.ts"
+  },
   "imports": {
     "@reflect": "https://deno.land/x/deno_reflect@v0.2.1/mod.ts"
+  },
+  "publish": {
+    "exclude": [
+      ".vscode",
+      "examples",
+      ".editorconfig",
+      "deno.lock",
+      "**/*.test.ts"
+    ]
   },
   "compilerOptions": {
     "strict": true,

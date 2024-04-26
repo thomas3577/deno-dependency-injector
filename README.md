@@ -4,10 +4,10 @@ Simple dependency injection for Deno TypeScript projects.
 
 This module's aims to provide you with an extremely simple API, without any bells and whistles and the 100% test coverage that comes with such a minimal feature set.
 
-As such, this module allows you to
+**As such, this module allows you to:**
 
 - inject classes into other classes through their constructor
-- inject classes as singletons *or* inject a new instance of the class every time it is used
+- inject classes as singletons _or_ inject a new instance of the class every time it is used
 - override/replace certain injected classes (e.g. for replacing them with a mock for testing purposes)
 
 That's it.
@@ -23,12 +23,12 @@ There's no need to make things more complicated than necessary.
 
 ```ts
 // class_a.ts
-import { Injectable } from "https://deno.land/x/inject/mod.ts";
+import { Injectable } from '@dx/inject';
 
 @Injectable()
 export class ClassA {
   hello() {
-    return "Hello from ClassA!";
+    return 'Hello from ClassA!';
   }
 }
 ```
@@ -37,8 +37,8 @@ export class ClassA {
 
 ```ts
 // class_b.ts
-import { Injectable } from "https://deno.land/x/inject/mod.ts";
-import { ClassA } from "./class_a.ts";
+import { Injectable } from '@dx/inject';
+import { ClassA } from './class_a.ts';
 
 @Injectable()
 export class ClassB {
@@ -56,8 +56,8 @@ export class ClassB {
 
 ```ts
 // main.ts
-import { Bootstrapped, bootstrap } from "https://deno.land/x/inject/mod.ts";
-import { ClassB } from "./class_b.ts";
+import { bootstrap, Bootstrapped } from '@dx/inject';
+import { ClassB } from './class_b.ts';
 
 @Bootstrapped()
 export class Main {
@@ -99,12 +99,12 @@ During testing, it may be useful to override certain dependencies of the class u
 This module allows you to do just that:
 
 ```ts
-import { Injectable, Bootstrappable, bootstrap } from "https://deno.land/x/inject/mod.ts";
-import { assertEquals } from "https://deno.land/std/test/mod.ts";
+import { bootstrap, Bootstrappable, Injectable } from '@dx/inject';
+import { assertEquals } from '@std/assert';
 
 @Injectable()
 class Dependency {
-  value = "Original dependency";
+  value = 'Original dependency';
 }
 
 @Injectable()
@@ -120,14 +120,14 @@ class ClassUnderTest {
 class OverrideDependency {
   constructor(public original: Dependency) {}
 
-  value = "Override dependency";
+  value = 'Override dependency';
 }
 
-Deno.test("ClassUnderTest dependency is overridden", () => {
+Deno.test('ClassUnderTest dependency is overridden', () => {
   const instance = bootstrap(ClassUnderTest, new Map([[Dependency, OverrideDependency]]));
 
-  assertEquals(instance.getValue(), "Override dependency");
-  assertEquals((instance.dependency as unknown as OverrideDependency).original.value, "Original dependency");
+  assertEquals(instance.getValue(), 'Override dependency');
+  assertEquals((instance.dependency as unknown as OverrideDependency).original.value, 'Original dependency');
 });
 ```
 
@@ -144,7 +144,7 @@ You can pass an optional options parameter to the `@Injectable()` decorator:
 
 - **`isSingleton`** (default: `true`): wether the class should be injected as a singleton or if a new instance should be created for every class that injects this type.
 
-    > Checkout `examples/instanced_counter.ts` and `examples/singleton_counter.ts` for example usages of the `isSingleton` property.
+> Checkout `examples/instanced_counter.ts` and `examples/singleton_counter.ts` for example usages of the `isSingleton` property.
 
 ### `@Bootstrapped()`
 

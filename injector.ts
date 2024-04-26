@@ -9,7 +9,7 @@ export function setInjectionMetadata(type: Constructor, metadata: InjectionMetad
   Reflect.defineMetadata('di:metadata', metadata, type);
 }
 
-export function bootstrap<T>(type: Constructor<T>, overrides = new Map<Constructor, Constructor>()): T {
+export function bootstrap<T>(type: Constructor<T>, overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()): T {
   return new Injector(overrides).bootstrap(type);
 }
 
@@ -17,7 +17,7 @@ export class Injector {
   #resolved = new Map<Constructor, () => unknown>();
   #overrides: Map<Constructor, Constructor>;
 
-  constructor(overrides = new Map<Constructor, Constructor>()) {
+  constructor(overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()) {
     this.#overrides = overrides;
   }
 

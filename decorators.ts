@@ -5,7 +5,7 @@ export interface InjectionOptions {
   isSingleton?: boolean;
 }
 
-export function Injectable<T>(options: InjectionOptions = {}) {
+export function Injectable<T>(options: InjectionOptions = {}): (Type: Constructor<T>) => void {
   return (Type: Constructor<T>): void => {
     setInjectionMetadata(Type, {
       isSingleton: options.isSingleton !== false,
@@ -13,6 +13,6 @@ export function Injectable<T>(options: InjectionOptions = {}) {
   };
 }
 
-export function Bootstrapped<T>() {
+export function Bootstrapped<T>(): (_: Constructor<T>) => void {
   return (_: Constructor<T>): void => {};
 }

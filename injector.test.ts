@@ -180,7 +180,7 @@ Deno.test('bootstrap(), non-injectable dependency', () => {
   assertThrows(
     () => bootstrap(NonInjectableDependency),
     TypeError,
-    'Dependency Number of non-injectable test is not injectable',
+    'Dependency Number of NonInjectableTest test is not injectable',
   );
 });
 
