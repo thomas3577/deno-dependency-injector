@@ -1,10 +1,19 @@
 {
   "version": "3",
-  "remote": {
-    "https://deno.land/std@0.71.0/fmt/colors.ts": "ce9375edade12ca09c257743f223fc469d72578d0c74a55cbf1a34f6198ce3df",
-    "https://deno.land/std@0.71.0/testing/asserts.ts": "5c4e1e7a8b9b0be3b5e6d4dabe8407e5de7f55d43a7a96f1e75a78acfb03cd04",
-    "https://deno.land/std@0.71.0/testing/diff.ts": "b685fb818c3527f0890628711934863672de2e94f01db421731654243f1eac8f",
-    "https://deno.land/x/deno_reflect@v0.2.1/Reflect.ts": "82fee1a619fd11c321d0db7f9f4d50b6b5cb4ce321936ba8c8520b8c6c127508",
-    "https://deno.land/x/deno_reflect@v0.2.1/mod.ts": "d2ca8f2338a10ecf7ae94b7d8329088f403ef080209c6eeeab3ae279ef904901"
+  "packages": {
+    "specifiers": {
+      "jsr:@dx/reflect@0.2.2": "jsr:@dx/reflect@0.2.2"
+    },
+    "jsr": {
+      "@dx/reflect@0.2.2": {
+        "integrity": "7c304c9d79960cadeab9ade510c14ca63cd8cafb62e098177293b8f64ff62618"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@dx/reflect@0.2.2"
+    ]
   }
 }

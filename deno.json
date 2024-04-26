@@ -8,7 +8,7 @@
     "lock": "deno cache --lock=deno.lock --lock-write ./mod.ts"
   },
   "imports": {
-    "@reflect": "jsr:@dx/reflect@v0.2.2"
+    "@dx/reflect": "jsr:@dx/reflect@0.2.2"
   },
   "publish": {
     "exclude": [
