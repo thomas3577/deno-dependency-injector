@@ -6,13 +6,19 @@
   "typescript.preferences.quoteStyle": "single",
   "deno.lint": true,
   "deno.enable": true,
-  "deno.unstable": true,
   "deno.config": "./deno.json",
-  "deno.codeLens.references": false,
-  "deno.codeLens.referencesAllFunctions": false,
   "deno.internalDebug": true,
   "search.exclude": {
     "**/deno.lock": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "cSpell.words": [
     "bootstrappable",
