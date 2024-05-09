@@ -4,7 +4,7 @@
 [![JSR Score](https://jsr.io/badges/@dx/inject/score)](https://jsr.io/@dx/inject/score)
 [![ci](https://github.com/thomas3577/deno-dependency-injector/actions/workflows/deno.yml/badge.svg)](https://github.com/thomas3577/deno-dependency-injector/actions/workflows/deno.yml)
 
-This is a fork of [cmd-johnson/deno-dependency-injector](https://github.com/cmd-johnson/deno-dependency-injector)
+**This is a fork of** [cmd-johnson/deno-dependency-injector](https://github.com/cmd-johnson/deno-dependency-injector)
 
 Simple dependency injection for Deno TypeScript projects.
 

@@ -1,6 +1,6 @@
 {
   "name": "@dx/inject",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "exports": {
     ".": "./mod.ts"
   },
@@ -8,12 +8,13 @@
     "lock": "deno cache --lock=deno.lock --lock-write ./mod.ts ./*.test.ts"
   },
   "imports": {
-    "@dx/reflect": "jsr:@dx/reflect@0.2.5",
+    "@dx/reflect": "jsr:@dx/reflect@0.2.6",
     "@std/assert": "jsr:@std/assert@0.224",
     "@std/testing": "jsr:@std/testing@0.224"
   },
   "publish": {
     "exclude": [
+      ".github",
       ".vscode",
       "examples",
       ".editorconfig",
