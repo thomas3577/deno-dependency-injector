@@ -1,5 +1,11 @@
 # Deno Dependency Injector
 
+[![JSR Version](https://jsr.io/badges/@dx/inject)](https://jsr.io/@dx/inject)
+[![JSR Score](https://jsr.io/badges/@dx/inject/score)](https://jsr.io/@dx/inject/score)
+[![ci](https://github.com/thomas3577/deno-dependency-injector/actions/workflows/deno.yml/badge.svg)](https://github.com/thomas3577/deno-dependency-injector/actions/workflows/deno.yml)
+
+This is a fork of [cmd-johnson/deno-dependency-injector](https://github.com/cmd-johnson/deno-dependency-injector)
+
 Simple dependency injection for Deno TypeScript projects.
 
 This module's aims to provide you with an extremely simple API, without any bells and whistles and the 100% test coverage that comes with such a minimal feature set.
