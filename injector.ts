@@ -2,6 +2,8 @@ import { Reflect } from '@dx/reflect';
 
 import type { Constructor } from './types.ts';
 
+export const resolved = new Map<Constructor, () => unknown>();
+
 export interface InjectionMetadata {
   isSingleton: boolean;
 }
@@ -17,31 +19,31 @@ export function bootstrap<T>(Type: Constructor<T>, overrides: Map<Constructor, C
 }
 
 export class Injector {
-  #resolved = new Map<Constructor, () => unknown>();
   #overrides: Map<Constructor, Constructor>;
 
   constructor(overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()) {
     this.#overrides = overrides;
   }
 
-  bootstrap<T>(type: Constructor<T>): T {
-    if (this.#isInjectable(type)) {
-      this.#resolve([type]);
+  bootstrap<T>(Type: Constructor<T>): T {
+    if (this.#isInjectable(Type)) {
+      this.#resolve([Type]);
 
-      return this.#resolved.get(type)!() as T;
-    } else {
-      const dependencies = this.#getDependencies(type);
-      this.#resolve(dependencies);
-
-      return new type(...dependencies.map((dep) => this.#resolved.get(dep)!()));
+      return resolved.get(Type)!() as T;
     }
+
+    const dependencies: Constructor[] = this.#getDependencies(Type);
+
+    this.#resolve(dependencies);
+
+    return new Type(...dependencies.map((Dep: Constructor) => resolved.get(Dep)!()));
   }
 
   #resolve(types: Constructor[]): void {
-    const unresolved = new Map([...this.#discoverDependencies(types)].filter(([Type]) => !this.#resolved.has(Type)));
+    const unresolved = new Map([...this.#discoverDependencies(types)].filter(([Type]) => !resolved.has(Type)));
 
     while (unresolved.size > 0) {
-      const nextResolvable = [...unresolved].find(([, meta]) => meta.dependencies.every((Dep: Constructor) => this.#resolved.has(Dep)));
+      const nextResolvable = [...unresolved].find(([, meta]) => meta.dependencies.every((Dep: Constructor) => resolved.has(Dep)));
       if (!nextResolvable) {
         const unresolvable: string = [...unresolved]
           .map(([Type, { dependencies }]) => `${Type.name} (-> ${dependencies.map((Dep: Constructor) => Dep.name).join(',')})`)
@@ -49,15 +51,16 @@ export class Injector {
 
         throw new Error(`Dependency cycle detected: Failed to resolve ${unresolvable}`);
       }
+
       const [Next, meta] = nextResolvable;
+      const createInstance = () => new Next(...meta.dependencies.map((Dep: Constructor) => resolved.get(Dep)!())) as typeof Next;
 
-      const createInstance = () => new Next(...meta.dependencies.map((Dep: Constructor) => this.#resolved.get(Dep)!())) as typeof Next;
       if (meta.isSingleton) {
-        const Instance: Constructor = createInstance();
+        const instance: Constructor = createInstance();
 
-        this.#resolved.set(Next, () => Instance);
+        resolved.set(Next, () => instance);
       } else {
-        this.#resolved.set(Next, createInstance);
+        resolved.set(Next, createInstance);
       }
 
       unresolved.delete(Next);
@@ -83,9 +86,9 @@ export class Injector {
     return dependencies.map((Dep: Constructor) => {
       if (this.#overrides.has(Dep) && this.#overrides.get(Dep) !== Type) {
         return this.#overrides.get(Dep)!;
-      } else {
-        return Dep;
       }
+
+      return Dep;
     });
   }
 
@@ -94,9 +97,9 @@ export class Injector {
     const undiscovered = new Set(types);
 
     while (undiscovered.size > 0) {
-      const Next = [...undiscovered.keys()][0];
-      const dependencies = this.#getDependencies(Next);
-      const metadata = this.#getInjectionMetadata(Next);
+      const Next: Constructor = [...undiscovered.keys()][0];
+      const dependencies: Constructor[] = this.#getDependencies(Next);
+      const metadata: InjectionMetadata = this.#getInjectionMetadata(Next);
 
       dependencies
         .filter((Dep: Constructor) => !discovered.has(Dep))
@@ -109,10 +112,7 @@ export class Injector {
         });
 
       undiscovered.delete(Next);
-      discovered.set(Next, {
-        ...metadata,
-        dependencies,
-      });
+      discovered.set(Next, { ...metadata, dependencies });
     }
 
     return discovered;
