@@ -10,7 +10,9 @@ export function setInjectionMetadata(type: Constructor, metadata: InjectionMetad
 }
 
 export function bootstrap<T>(type: Constructor<T>, overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()): T {
-  return new Injector(overrides).bootstrap(type);
+  const injector = new Injector(overrides);
+
+  return injector.bootstrap(type);
 }
 
 export class Injector {
