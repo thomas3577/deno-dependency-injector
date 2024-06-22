@@ -1,18 +1,19 @@
 import { Reflect } from '@dx/reflect';
+
 import type { Constructor } from './types.ts';
 
 export interface InjectionMetadata {
   isSingleton: boolean;
 }
 
-export function setInjectionMetadata(type: Constructor, metadata: InjectionMetadata): void {
-  Reflect.defineMetadata('di:metadata', metadata, type);
+export function setInjectionMetadata(Type: Constructor, metadata: InjectionMetadata): void {
+  Reflect.defineMetadata('di:metadata', metadata, Type);
 }
 
-export function bootstrap<T>(type: Constructor<T>, overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()): T {
+export function bootstrap<T>(Type: Constructor<T>, overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()): T {
   const injector = new Injector(overrides);
 
-  return injector.bootstrap(type);
+  return injector.bootstrap(Type);
 }
 
 export class Injector {
@@ -37,54 +38,53 @@ export class Injector {
   }
 
   #resolve(types: Constructor[]): void {
-    const unresolved = new Map(
-      [...this.#discoverDependencies(types)].filter(([T]) => !this.#resolved.has(T)),
-    );
+    const unresolved = new Map([...this.#discoverDependencies(types)].filter(([Type]) => !this.#resolved.has(Type)));
 
     while (unresolved.size > 0) {
-      const nextResolvable = [...unresolved].find(([, meta]) => meta.dependencies.every((dep) => this.#resolved.has(dep)));
+      const nextResolvable = [...unresolved].find(([, meta]) => meta.dependencies.every((Dep: Constructor) => this.#resolved.has(Dep)));
       if (!nextResolvable) {
-        const unresolvable = [...unresolved]
-          .map(([type, { dependencies }]) => `${type.name} (-> ${dependencies.map((D) => D.name).join(',')})`)
+        const unresolvable: string = [...unresolved]
+          .map(([Type, { dependencies }]) => `${Type.name} (-> ${dependencies.map((Dep: Constructor) => Dep.name).join(',')})`)
           .join(', ');
 
         throw new Error(`Dependency cycle detected: Failed to resolve ${unresolvable}`);
       }
-      const [next, meta] = nextResolvable;
+      const [Next, meta] = nextResolvable;
 
-      const createInstance = () => new next(...meta.dependencies.map((dep) => this.#resolved.get(dep)!())) as typeof next;
+      const createInstance = () => new Next(...meta.dependencies.map((Dep: Constructor) => this.#resolved.get(Dep)!())) as typeof Next;
       if (meta.isSingleton) {
-        const instance = createInstance();
-        this.#resolved.set(next, () => instance);
+        const Instance: Constructor = createInstance();
+
+        this.#resolved.set(Next, () => Instance);
       } else {
-        this.#resolved.set(next, createInstance);
+        this.#resolved.set(Next, createInstance);
       }
 
-      unresolved.delete(next);
+      unresolved.delete(Next);
     }
   }
 
-  #getInjectionMetadata(type: Constructor): InjectionMetadata {
-    const metadata: InjectionMetadata | undefined = Reflect.getOwnMetadata('di:metadata', type);
+  #getInjectionMetadata(Type: Constructor): InjectionMetadata {
+    const metadata: InjectionMetadata | undefined = Reflect.getOwnMetadata('di:metadata', Type);
     if (!metadata) {
-      throw new TypeError(`Type ${type.name} is not injectable`);
+      throw new TypeError(`Type ${Type.name} is not injectable`);
     }
 
     return metadata;
   }
 
-  #isInjectable(type: Constructor): boolean {
-    return typeof Reflect.getOwnMetadata('di:metadata', type) === 'object';
+  #isInjectable(Type: Constructor): boolean {
+    return typeof Reflect.getOwnMetadata('di:metadata', Type) === 'object';
   }
 
   #getDependencies(Type: Constructor): Constructor[] {
     const dependencies: Constructor[] = Reflect.getOwnMetadata('design:paramtypes', Type) || [];
 
-    return dependencies.map((dep) => {
-      if (this.#overrides.has(dep) && this.#overrides.get(dep) !== Type) {
-        return this.#overrides.get(dep)!;
+    return dependencies.map((Dep: Constructor) => {
+      if (this.#overrides.has(Dep) && this.#overrides.get(Dep) !== Type) {
+        return this.#overrides.get(Dep)!;
       } else {
-        return dep;
+        return Dep;
       }
     });
   }
@@ -94,20 +94,22 @@ export class Injector {
     const undiscovered = new Set(types);
 
     while (undiscovered.size > 0) {
-      const next = [...undiscovered.keys()][0];
-      const dependencies = this.#getDependencies(next);
-      const metadata = this.#getInjectionMetadata(next);
+      const Next = [...undiscovered.keys()][0];
+      const dependencies = this.#getDependencies(Next);
+      const metadata = this.#getInjectionMetadata(Next);
 
-      dependencies.filter((dep) => !discovered.has(dep)).forEach((dep) => {
-        if (!this.#isInjectable(dep)) {
-          throw new TypeError(`Dependency ${dep.name} of ${next.name} is not injectable`);
-        }
+      dependencies
+        .filter((Dep: Constructor) => !discovered.has(Dep))
+        .forEach((Dep: Constructor) => {
+          if (!this.#isInjectable(Dep)) {
+            throw new TypeError(`Dependency ${Dep.name} of ${Next.name} is not injectable`);
+          }
 
-        undiscovered.add(dep);
-      });
+          undiscovered.add(Dep);
+        });
 
-      undiscovered.delete(next);
-      discovered.set(next, {
+      undiscovered.delete(Next);
+      discovered.set(Next, {
         ...metadata,
         dependencies,
       });

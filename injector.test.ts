@@ -2,8 +2,8 @@ import { assert, assertEquals, assertNotStrictEquals, assertStrictEquals, assert
 import { bootstrap, Bootstrapped, Injectable, Injector } from './mod.ts';
 import type { Constructor } from './types.ts';
 
-function assertInstanceOf<T>(value: T, type: Constructor<T>) {
-  assert(value instanceof type, `${value} is not of type ${type.name}`);
+function assertInstanceOf<T>(value: T, Type: Constructor<T>) {
+  assert(value instanceof Type, `${value} is not of type ${Type.name}`);
 }
 
 @Injectable()
@@ -43,7 +43,9 @@ class TestAOverride {
   }
 }
 
-@Injectable({ isSingleton: false })
+@Injectable({
+  isSingleton: false,
+})
 class TestAInstancedOverride {
   whoami() {
     return 'TestA Instanced Override';
@@ -96,6 +98,7 @@ class CycleMain {
 
 Deno.test('bootstrap(), no overrides', () => {
   const main = bootstrap(Main);
+
   assertInstanceOf(main.c, TestC);
   assertInstanceOf(main.c.a, TestA);
   assertInstanceOf(main.c.b, TestB);
@@ -106,6 +109,7 @@ Deno.test('bootstrap(), no overrides', () => {
 Deno.test('bootstrap(), TestAOverride', () => {
   const overrides = new Map([[TestA, TestAOverride]]);
   const main = bootstrap(Main, overrides);
+
   assertInstanceOf(main.c, TestC);
   assertInstanceOf(main.c.a, TestAOverride);
   assertInstanceOf(main.c.b, TestB);
@@ -116,6 +120,7 @@ Deno.test('bootstrap(), TestAOverride', () => {
 Deno.test('bootstrap(), TestAInstancedOverride', () => {
   const overrides = new Map([[TestA, TestAInstancedOverride]]);
   const main = bootstrap(Main, overrides);
+
   assertInstanceOf(main.c, TestC);
   assertInstanceOf(main.c.a, TestAInstancedOverride);
   assertInstanceOf(main.c.b, TestB);
@@ -126,9 +131,12 @@ Deno.test('bootstrap(), TestAInstancedOverride', () => {
 Deno.test('bootstrap(), TestCOverride', () => {
   const overrides = new Map([[TestC, TestCOverride]]);
   const main = bootstrap(Main, overrides);
+
   assertInstanceOf(main.c.a, TestA);
   assertInstanceOf(main.c as unknown, TestCOverride);
+
   const cO = main.c as unknown as TestCOverride;
+
   assertInstanceOf(cO.c, TestC);
   assertInstanceOf(cO.c.a, TestA);
   assertInstanceOf(cO.c.b, TestB);
@@ -138,13 +146,14 @@ Deno.test('bootstrap(), TestCOverride', () => {
 });
 
 Deno.test('bootstrap(), TestAOverride and TestCOverride', () => {
-  const overrides = new Map<Constructor, Constructor>(
-    [[TestA, TestAOverride], [TestC, TestCOverride]],
-  );
+  const overrides = new Map<Constructor, Constructor>([[TestA, TestAOverride], [TestC, TestCOverride]]);
   const main = bootstrap(Main, overrides);
+
   assertInstanceOf(main.c.a, TestAOverride);
   assertInstanceOf(main.c as unknown, TestCOverride);
+
   const cO = main.c as unknown as TestCOverride;
+
   assertInstanceOf(cO.c, TestC);
   assertInstanceOf(cO.c.b, TestB);
   assertInstanceOf(cO.c.b.a, TestAOverride);
@@ -153,13 +162,14 @@ Deno.test('bootstrap(), TestAOverride and TestCOverride', () => {
 });
 
 Deno.test('bootstrap(), TestAInstancedOverride and TestCOverride', () => {
-  const overrides = new Map<Constructor, Constructor>(
-    [[TestA, TestAInstancedOverride], [TestC, TestCOverride]],
-  );
+  const overrides = new Map<Constructor, Constructor>([[TestA, TestAInstancedOverride], [TestC, TestCOverride]]);
   const main = bootstrap(Main, overrides);
+
   assertInstanceOf(main.c.a, TestAInstancedOverride);
   assertInstanceOf(main.c as unknown, TestCOverride);
+
   const cO = main.c as unknown as TestCOverride;
+
   assertInstanceOf(cO.c, TestC);
   assertInstanceOf(cO.c.b, TestB);
   assertInstanceOf(cO.c.b.a, TestAInstancedOverride);
@@ -169,27 +179,15 @@ Deno.test('bootstrap(), TestAInstancedOverride and TestCOverride', () => {
 });
 
 Deno.test('bootstrap(), non-injectable main', () => {
-  assertThrows(
-    () => bootstrap(NonInjectableMain),
-    TypeError,
-    'Type String is not injectable',
-  );
+  assertThrows(() => bootstrap(NonInjectableMain), TypeError, 'Type String is not injectable');
 });
 
 Deno.test('bootstrap(), non-injectable dependency', () => {
-  assertThrows(
-    () => bootstrap(NonInjectableDependency),
-    TypeError,
-    'Dependency Number of NonInjectableTest is not injectable',
-  );
+  assertThrows(() => bootstrap(NonInjectableDependency), TypeError, 'Dependency Number of NonInjectableTest is not injectable');
 });
 
 Deno.test('bootstrap(), dependency cycle', () => {
-  assertThrows(
-    () => bootstrap(CycleMain, new Map([[CycleDummy, CycleB]])),
-    Error,
-    'Dependency cycle detected: Failed to resolve CycleB (-> CycleA), CycleA (-> CycleB)',
-  );
+  assertThrows(() => bootstrap(CycleMain, new Map([[CycleDummy, CycleB]])), Error, 'Dependency cycle detected: Failed to resolve CycleB (-> CycleA), CycleA (-> CycleB)');
 });
 
 Deno.test('bootstrap(), class under test', () => {
