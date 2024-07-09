@@ -27,21 +27,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "lint": {
-    "rules": {
-      "tags": [
-        "recommended"
-      ],
-      "include": [
-        "ban-untagged-todo",
-        "no-deprecated-deno-api"
-      ],
-      "exclude": [
-        "no-explicit-any",
-        "no-inferrable-types"
-      ]
-    }
-  },
   "fmt": {
     "useTabs": false,
     "lineWidth": 360,
