@@ -3,21 +3,21 @@
   "packages": {
     "specifiers": {
       "jsr:@dx/reflect@0.2.8": "jsr:@dx/reflect@0.2.8",
-      "jsr:@std/assert@0.226": "jsr:@std/assert@0.226.0",
-      "jsr:@std/internal@^1.0.0": "jsr:@std/internal@1.0.0"
+      "jsr:@std/assert@1": "jsr:@std/assert@1.0.0",
+      "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1"
     },
     "jsr": {
       "@dx/reflect@0.2.8": {
         "integrity": "7f497ccc140b25c72f3de5343e15955a49946e07f8255c5417e13aac9554f0bd"
       },
-      "@std/assert@0.226.0": {
-        "integrity": "0dfb5f7c7723c18cec118e080fec76ce15b4c31154b15ad2bd74822603ef75b3",
+      "@std/assert@1.0.0": {
+        "integrity": "0e4f6d873f7f35e2a1e6194ceee39686c996b9e5d134948e644d35d4c4df2008",
         "dependencies": [
-          "jsr:@std/internal@^1.0.0"
+          "jsr:@std/internal@^1.0.1"
         ]
       },
-      "@std/internal@1.0.0": {
-        "integrity": "ac6a6dfebf838582c4b4f61a6907374e27e05bedb6ce276e0f1608fe84e7cd9a"
+      "@std/internal@1.0.1": {
+        "integrity": "6f8c7544d06a11dd256c8d6ba54b11ed870aac6c5aeafff499892662c57673e6"
       }
     }
   },
@@ -25,7 +25,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@dx/reflect@0.2.8",
-      "jsr:@std/assert@0.226",
+      "jsr:@std/assert@1",
       "jsr:@std/testing@0.225"
     ]
   }
