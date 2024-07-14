@@ -2,13 +2,13 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@dx/reflect@0.2.8": "jsr:@dx/reflect@0.2.8",
+      "jsr:@dx/reflect@0.2.14": "jsr:@dx/reflect@0.2.14",
       "jsr:@std/assert@1": "jsr:@std/assert@1.0.0",
       "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1"
     },
     "jsr": {
-      "@dx/reflect@0.2.8": {
-        "integrity": "7f497ccc140b25c72f3de5343e15955a49946e07f8255c5417e13aac9554f0bd"
+      "@dx/reflect@0.2.14": {
+        "integrity": "53e1cb54e25170f43d90966679fcd7d6e0d27e23f4f1c869330d339576f446be"
       },
       "@std/assert@1.0.0": {
         "integrity": "0e4f6d873f7f35e2a1e6194ceee39686c996b9e5d134948e644d35d4c4df2008",
@@ -24,7 +24,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@dx/reflect@0.2.8",
+      "jsr:@dx/reflect@0.2.14",
       "jsr:@std/assert@1",
       "jsr:@std/testing@0.225"
     ]

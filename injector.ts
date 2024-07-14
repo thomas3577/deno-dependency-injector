@@ -2,29 +2,63 @@ import { Reflect } from '@dx/reflect';
 
 import type { Constructor } from './types.ts';
 
+/**
+ * Resolved instances.
+ */
 export const resolved = new Map<Constructor, () => unknown>();
 
+/**
+ * Injection metadata.
+ */
 export interface InjectionMetadata {
   isSingleton: boolean;
 }
 
+/**
+ * Set injection metadata.
+ *
+ * @param {Constructor} Type - Constructor type.
+ * @param {InjectionMetadata} metadata - Injection metadata.
+ */
 export function setInjectionMetadata(Type: Constructor, metadata: InjectionMetadata): void {
   Reflect.defineMetadata('di:metadata', metadata, Type);
 }
-
+/**
+ * Bootstraps the application.
+ *
+ * @param {Constructor<T>} Type
+ * @param {Map<Constructor, Constructor>} [overrides=new Map<Constructor, Constructor>()]
+ *
+ * @returns {T}
+ */
 export function bootstrap<T>(Type: Constructor<T>, overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()): T {
   const injector = new Injector(overrides);
 
   return injector.bootstrap(Type);
 }
 
+/**
+ * Injector class.
+ */
 export class Injector {
   #overrides: Map<Constructor, Constructor>;
 
+  /**
+   * Constructor.
+   *
+   * @param {Map<Constructor, Constructor>} [overrides=new Map<Constructor, Constructor>()]
+   */
   constructor(overrides: Map<Constructor, Constructor> = new Map<Constructor, Constructor>()) {
     this.#overrides = overrides;
   }
 
+  /**
+   * Bootstraps the application.
+   *
+   * @param {Constructor<T>} Type
+   *
+   * @returns {T}
+   */
   bootstrap<T>(Type: Constructor<T>): T {
     if (this.#isInjectable(Type)) {
       this.#resolve([Type]);
