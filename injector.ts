@@ -23,6 +23,7 @@ export interface InjectionMetadata {
 export function setInjectionMetadata(Type: Constructor, metadata: InjectionMetadata): void {
   Reflect.defineMetadata('di:metadata', metadata, Type);
 }
+
 /**
  * Bootstraps the application.
  *

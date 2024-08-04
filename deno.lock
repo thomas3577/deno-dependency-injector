@@ -3,15 +3,15 @@
   "packages": {
     "specifiers": {
       "jsr:@dx/reflect@0.2.14": "jsr:@dx/reflect@0.2.14",
-      "jsr:@std/assert@1": "jsr:@std/assert@1.0.0",
+      "jsr:@std/assert@1.0.2": "jsr:@std/assert@1.0.2",
       "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1"
     },
     "jsr": {
       "@dx/reflect@0.2.14": {
         "integrity": "53e1cb54e25170f43d90966679fcd7d6e0d27e23f4f1c869330d339576f446be"
       },
-      "@std/assert@1.0.0": {
-        "integrity": "0e4f6d873f7f35e2a1e6194ceee39686c996b9e5d134948e644d35d4c4df2008",
+      "@std/assert@1.0.2": {
+        "integrity": "ccacec332958126deaceb5c63ff8b4eaf9f5ed0eac9feccf124110435e59e49c",
         "dependencies": [
           "jsr:@std/internal@^1.0.1"
         ]
@@ -25,8 +25,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@dx/reflect@0.2.14",
-      "jsr:@std/assert@1",
-      "jsr:@std/testing@0.225"
+      "jsr:@std/assert@1.0.2",
+      "jsr:@std/testing@1.0.0"
     ]
   }
 }
