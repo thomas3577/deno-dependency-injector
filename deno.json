@@ -5,7 +5,7 @@
     ".": "./mod.ts"
   },
   "tasks": {
-    "lock": "deno cache --lock=deno.lock ./**/*.ts"
+    "lock": "deno cache ./**/*.ts"
   },
   "imports": {
     "@dx/reflect": "jsr:@dx/reflect@0.2.14",
