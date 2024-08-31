@@ -1,6 +1,6 @@
 import { Reflect } from '@dx/reflect';
 
-import type { Constructor } from './types.ts';
+import type { Constructor, InjectionMetadata } from './types.ts';
 
 /**
  * Resolved instances.
@@ -8,17 +8,10 @@ import type { Constructor } from './types.ts';
 export const resolved = new Map<Constructor, () => unknown>();
 
 /**
- * Injection metadata.
- */
-export interface InjectionMetadata {
-  isSingleton: boolean;
-}
-
-/**
  * Set injection metadata.
  *
- * @param {Constructor} Type - Constructor type.
- * @param {InjectionMetadata} metadata - Injection metadata.
+ * @param {Constructor} Type - Constructor type
+ * @param {InjectionMetadata} metadata - Injection metadata
  */
 export function setInjectionMetadata(Type: Constructor, metadata: InjectionMetadata): void {
   Reflect.defineMetadata('di:metadata', metadata, Type);
@@ -27,7 +20,7 @@ export function setInjectionMetadata(Type: Constructor, metadata: InjectionMetad
 /**
  * Bootstraps the application.
  *
- * @param {Constructor<T>} Type
+ * @param {Constructor<T>} Type - Constructor type
  * @param {Map<Constructor, Constructor>} [overrides=new Map<Constructor, Constructor>()]
  *
  * @returns {T}
@@ -45,7 +38,7 @@ export class Injector {
   #overrides: Map<Constructor, Constructor>;
 
   /**
-   * Constructor.
+   * Constructor
    *
    * @param {Map<Constructor, Constructor>} [overrides=new Map<Constructor, Constructor>()]
    */

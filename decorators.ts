@@ -1,17 +1,10 @@
-import type { Constructor } from './types.ts';
+import type { Constructor, InjectionOptions } from './types.ts';
 import { setInjectionMetadata } from './injector.ts';
-
-/**
- * Options for the `Injectable` decorator.
- */
-export interface InjectionOptions {
-  isSingleton?: boolean;
-}
 
 /**
  * Decorator to mark a class as injectable.
  *
- * @param options Options for the injection.
+ * @param {InjectionOptions} options - Options for the injection.
  *
  * @example Makes a class injectable.
  * ```ts
