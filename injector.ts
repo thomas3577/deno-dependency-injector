@@ -1,4 +1,4 @@
-import { Reflect } from '@dx/reflect';
+import '@npm/reflect-metadata';
 
 import type { Constructor, InjectionMetadata } from './types.ts';
 
