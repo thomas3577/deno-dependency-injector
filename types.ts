@@ -1,5 +1,3 @@
-// deno-lint-ignore-file
-
 /**
  * Injection metadata.
  */
@@ -17,4 +15,5 @@ export interface InjectionOptions {
 /**
  * Constructor type.
  */
+// deno-lint-ignore no-explicit-any
 export type Constructor<T = unknown> = new (...args: any[]) => T;
