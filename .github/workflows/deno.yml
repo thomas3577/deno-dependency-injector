@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
 
 jobs:
   publish:
@@ -15,12 +17,12 @@ jobs:
 
     steps:
       - name: Setup repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.1
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2.0.3
         with:
-          deno-version: v2.4.2
+          deno-version: v2.6.7
 
       - name: Verify formatting
         run: deno fmt --check
@@ -32,4 +34,5 @@ jobs:
         run: deno test
 
       - name: Publish package
+        if: startsWith(github.ref, 'refs/tags/')
         run: deno publish
